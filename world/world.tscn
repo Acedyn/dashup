@@ -1,0 +1,36 @@
+[gd_scene load_steps=10 format=3 uid="uid://cvt4iednstil7"]
+
+[ext_resource type="PackedScene" uid="uid://bi1rkqhe7v3s3" path="res://player/player.tscn" id="1_ft35p"]
+[ext_resource type="Script" path="res://world/camera.gd" id="9_xvewl"]
+[ext_resource type="Script" path="res://world/walls.gd" id="10_4a0t6"]
+[ext_resource type="PackedScene" uid="uid://c1m81ktsdc0q8" path="res://generation/chunks/chunk_01.tscn" id="11_ut2oe"]
+[ext_resource type="PackedScene" uid="uid://d3t27n8alo3fu" path="res://generation/chunks/chunk_02.tscn" id="12_js6cv"]
+[ext_resource type="PackedScene" uid="uid://dacp4t2brdt8i" path="res://generation/chunks/chunk_03.tscn" id="13_q5c7j"]
+[ext_resource type="PackedScene" uid="uid://4om6pt1c73fp" path="res://generation/chunks/chunk_04.tscn" id="14_btwk1"]
+[ext_resource type="PackedScene" uid="uid://c6yedt5ddguvl" path="res://generation/chunks/chunk_05.tscn" id="15_pw48y"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2ovmp"]
+friction = 0.2
+bounce = 0.5
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_ft35p")]
+position = Vector2(580, 309)
+physics_material_override = SubResource("PhysicsMaterial_2ovmp")
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("follow_node")]
+position = Vector2(580, 309)
+script = ExtResource("9_xvewl")
+follow_node = NodePath("../Player")
+
+[node name="Walls" type="Node2D" parent="."]
+script = ExtResource("10_4a0t6")
+initial_quandidates = Array[PackedScene]([ExtResource("11_ut2oe"), ExtResource("12_js6cv"), ExtResource("13_q5c7j"), ExtResource("14_btwk1"), ExtResource("15_pw48y")])
+
+[node name="Chunk02" parent="Walls" instance=ExtResource("11_ut2oe")]
+position = Vector2(64, 584)
+
+[node name="Chunk01" parent="Walls" instance=ExtResource("11_ut2oe")]
+position = Vector2(1088, 584)
+scale = Vector2(-1, 1)

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi1rkqhe7v3s3"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_ko6lp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7wv7a"]
+radius = 24.0832
+
+[node name="Player" type="RigidBody2D"]
+script = ExtResource("1_ko6lp")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(1, 0, 1, 1)
+polygon = PackedVector2Array(0, -24, 10, -22, 18, -18, 22, -10, 24, 0, 22, 10, 18, 18, 10, 22, 0, 24, -10, 22, -18, 18, -22, 10, -24, 0, -22, -10, -18, -18, -10, -22)
+uv = PackedVector2Array(0, -24, 10, -22, 18, -18, 22, -10, 24, 0, 22, 10, 18, 18, 10, 22, 0, 24, -10, 22, -18, 18, -22, 10, -24, 0, -22, -10, -18, -18, -10, -22)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7wv7a")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7wv7a")

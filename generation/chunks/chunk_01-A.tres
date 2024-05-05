@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Quandidate" load_steps=3 format=3 uid="uid://cdnfgpdgftppc"]
+
+[ext_resource type="PackedScene" uid="uid://c1m81ktsdc0q8" path="res://generation/chunks/chunk_01.tscn" id="1_nfj7j"]
+[ext_resource type="Script" path="res://generation/quandidate.gd" id="2_wd08u"]
+
+[resource]
+script = ExtResource("2_wd08u")
+analyse = false
+scene = ExtResource("1_nfj7j")
+polygon_node_name = "Polygon2D1"
+weight = 1.0
+slope = 0.0
+transform = Transform2D(1, 0, 0, 1, 0, 0)
+type = 0

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://4om6pt1c73fp"]
+
+[ext_resource type="Script" path="res://generation/chunk.gd" id="1_nsrwr"]
+
+[node name="Chunk01" type="Node2D"]
+
+[node name="Polygon2D1" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-320, -48, 224, -48, 320, 48, -320, 48)
+script = ExtResource("1_nsrwr")
