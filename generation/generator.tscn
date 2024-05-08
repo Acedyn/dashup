@@ -1,24 +1,63 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwe7m1gdolhda"]
+[gd_scene load_steps=23 format=3 uid="uid://cwe7m1gdolhda"]
 
 [ext_resource type="Script" path="res://generation/generator.gd" id="1_sof1i"]
 [ext_resource type="Resource" uid="uid://cdnfgpdgftppc" path="res://generation/chunks/chunk_01-A.tres" id="2_bpubt"]
 [ext_resource type="PackedScene" uid="uid://c1m81ktsdc0q8" path="res://generation/chunks/chunk_01.tscn" id="2_drc80"]
 [ext_resource type="Resource" uid="uid://cgorvbxu6jie4" path="res://generation/chunks/chunk_01-B.tres" id="3_to57w"]
+[ext_resource type="Resource" uid="uid://dvckl2jn6ht6t" path="res://generation/chunks/chunk_01-C.tres" id="4_l6kbt"]
 [ext_resource type="Resource" uid="uid://c4e4mgrxubjig" path="res://generation/chunks/chunk_02-A.tres" id="4_n6k3m"]
 [ext_resource type="Resource" uid="uid://5l8jkuocqr0o" path="res://generation/chunks/chunk_02-B.tres" id="5_8no4w"]
+[ext_resource type="Resource" uid="uid://csh48as302jog" path="res://generation/chunks/chunk_01-D.tres" id="5_ehmnp"]
 [ext_resource type="Resource" uid="uid://ctoxr5t35qgmy" path="res://generation/chunks/chunk_03-A.tres" id="6_65kgf"]
 [ext_resource type="Resource" uid="uid://dfnahim1f7lms" path="res://generation/chunks/chunk_03-B.tres" id="7_aqsfs"]
+[ext_resource type="Resource" uid="uid://bdwlbjltbqeds" path="res://generation/chunks/chunk_02-C.tres" id="8_0qnnp"]
 [ext_resource type="Resource" uid="uid://b82r2i83ptfxt" path="res://generation/chunks/chunk_04-A.tres" id="8_edlcd"]
+[ext_resource type="Resource" uid="uid://b2ekblov3c133" path="res://generation/chunks/chunk_02-D.tres" id="9_6slb7"]
 [ext_resource type="Resource" uid="uid://d07l58njlupe7" path="res://generation/chunks/chunk_04-B.tres" id="9_uwdww"]
 [ext_resource type="Resource" uid="uid://fltta8bklb5r" path="res://generation/chunks/chunk_05-A.tres" id="10_0uefm"]
 [ext_resource type="Resource" uid="uid://brodxsu5xjnmf" path="res://generation/chunks/chunk_05-B.tres" id="11_jcnh1"]
+[ext_resource type="Resource" uid="uid://cfud8kv0mapvs" path="res://generation/chunks/chunk_03-C.tres" id="12_57ky3"]
+[ext_resource type="Resource" uid="uid://c3ma00hhef74y" path="res://generation/chunks/chunk_03-D.tres" id="13_7rmic"]
+[ext_resource type="Resource" uid="uid://d36brncopkh6f" path="res://generation/chunks/chunk_04-C.tres" id="16_w0wtt"]
+[ext_resource type="Resource" uid="uid://due02l545fkea" path="res://generation/chunks/chunk_04-D.tres" id="17_hdy8m"]
+[ext_resource type="Resource" uid="uid://cyk6mr0djsthe" path="res://generation/chunks/chunk_05-C.tres" id="20_i85t8"]
+[ext_resource type="Resource" uid="uid://c8kimvlsaq8gy" path="res://generation/chunks/chunk_05-D.tres" id="21_lcfxc"]
 
 [node name="Generator" type="Node2D"]
 script = ExtResource("1_sof1i")
-quandidates = Array[Resource("res://generation/quandidate.gd")]([ExtResource("2_bpubt"), ExtResource("3_to57w"), ExtResource("4_n6k3m"), ExtResource("5_8no4w"), ExtResource("6_65kgf"), ExtResource("7_aqsfs"), ExtResource("8_edlcd"), ExtResource("9_uwdww"), ExtResource("10_0uefm"), ExtResource("11_jcnh1")])
+quandidates = Array[Resource]([ExtResource("2_bpubt"), ExtResource("3_to57w"), ExtResource("4_l6kbt"), ExtResource("5_ehmnp"), ExtResource("4_n6k3m"), ExtResource("5_8no4w"), ExtResource("8_0qnnp"), ExtResource("9_6slb7"), ExtResource("6_65kgf"), ExtResource("7_aqsfs"), ExtResource("12_57ky3"), ExtResource("13_7rmic"), ExtResource("8_edlcd"), ExtResource("9_uwdww"), ExtResource("16_w0wtt"), ExtResource("17_hdy8m"), ExtResource("10_0uefm"), ExtResource("11_jcnh1"), ExtResource("20_i85t8"), ExtResource("21_lcfxc")])
 
 [node name="Chunk01" parent="." instance=ExtResource("2_drc80")]
 position = Vector2(160, 600)
 
 [node name="Chunk02" parent="." instance=ExtResource("2_drc80")]
 position = Vector2(992, 600)
+scale = Vector2(-1, -1)
+
+[node name="Chunk03" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(160, 504)
+
+[node name="Chunk04" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(992, 504)
+scale = Vector2(-1, -1)
+
+[node name="Chunk05" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(160, 408)
+
+[node name="Chunk06" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(992, 408)
+scale = Vector2(-1, -1)
+
+[node name="Chunk07" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(160, 312)
+
+[node name="Chunk08" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(992, 312)
+scale = Vector2(-1, -1)
+
+[node name="Chunk09" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(160, 216)
+
+[node name="Chunk10" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(992, 216)
+scale = Vector2(-1, -1)

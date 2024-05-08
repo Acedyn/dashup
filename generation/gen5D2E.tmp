@@ -1,0 +1,24 @@
+[gd_scene load_steps=13 format=3 uid="uid://cwe7m1gdolhda"]
+
+[ext_resource type="Script" path="res://generation/generator.gd" id="1_sof1i"]
+[ext_resource type="Resource" uid="uid://cdnfgpdgftppc" path="res://generation/chunks/chunk_01-A.tres" id="2_bpubt"]
+[ext_resource type="PackedScene" uid="uid://c1m81ktsdc0q8" path="res://generation/chunks/chunk_01.tscn" id="2_drc80"]
+[ext_resource type="Resource" uid="uid://cgorvbxu6jie4" path="res://generation/chunks/chunk_01-B.tres" id="3_to57w"]
+[ext_resource type="Resource" uid="uid://c4e4mgrxubjig" path="res://generation/chunks/chunk_02-A.tres" id="4_n6k3m"]
+[ext_resource type="Resource" uid="uid://5l8jkuocqr0o" path="res://generation/chunks/chunk_02-B.tres" id="5_8no4w"]
+[ext_resource type="Resource" uid="uid://ctoxr5t35qgmy" path="res://generation/chunks/chunk_03-A.tres" id="6_65kgf"]
+[ext_resource type="Resource" uid="uid://dfnahim1f7lms" path="res://generation/chunks/chunk_03-B.tres" id="7_aqsfs"]
+[ext_resource type="Resource" uid="uid://b82r2i83ptfxt" path="res://generation/chunks/chunk_04-A.tres" id="8_edlcd"]
+[ext_resource type="Resource" uid="uid://d07l58njlupe7" path="res://generation/chunks/chunk_04-B.tres" id="9_uwdww"]
+[ext_resource type="Resource" uid="uid://fltta8bklb5r" path="res://generation/chunks/chunk_05-A.tres" id="10_0uefm"]
+[ext_resource type="Resource" uid="uid://brodxsu5xjnmf" path="res://generation/chunks/chunk_05-B.tres" id="11_jcnh1"]
+
+[node name="Generator" type="Node2D"]
+script = ExtResource("1_sof1i")
+quandidates = Array[Resource]([ExtResource("2_bpubt"), ExtResource("3_to57w"), ExtResource("4_n6k3m"), ExtResource("5_8no4w"), ExtResource("6_65kgf"), ExtResource("7_aqsfs"), ExtResource("8_edlcd"), ExtResource("9_uwdww"), ExtResource("10_0uefm"), ExtResource("11_jcnh1")])
+
+[node name="Chunk01" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(160, 600)
+
+[node name="Chunk02" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(992, 600)

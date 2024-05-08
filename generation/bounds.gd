@@ -7,8 +7,9 @@ class_name Bounds
 @export var bottomRight: Vector2 = Vector2.ZERO
 
 # Compute the bounds of using the given node
-static func from_polygon(polygon_node: Polygon2D) -> Bounds:
+static func from_polygon(polygon_node: Polygon2D, transform: Transform2D = Transform2D.IDENTITY) -> Bounds:
 	var bounds: Bounds = Bounds.new()
+	transform *= polygon_node.global_transform
 	
 	# Get the polygon points
 	var polygon_points = polygon_node.polygon
@@ -16,9 +17,10 @@ static func from_polygon(polygon_node: Polygon2D) -> Bounds:
 	
 	# First get the top points, make sure the top part is
 	# at least composed of two points
-	var topPoints = PackedVector2Array([polygon_node.polygon[0]])
-	var bottomPoints = PackedVector2Array([polygon_node.polygon[0]])
+	var topPoints = PackedVector2Array([transform * polygon_node.polygon[0]])
+	var bottomPoints = PackedVector2Array([transform * polygon_node.polygon[0]])
 	for point in polygon_node.polygon.slice(1):
+		point = transform * point
 		if is_equal_approx(point.y, topPoints[0].y):
 			topPoints.append(point)
 		elif point.y < topPoints[0].y:
@@ -50,7 +52,6 @@ static func from_polygon(polygon_node: Polygon2D) -> Bounds:
 		elif point.x > bounds.bottomRight.x:
 			bounds.bottomRight = point
 			
-	bounds.apply_transform(polygon_node.global_transform)
 	return bounds
 	
 # Compute the opennings bounds between other bounds

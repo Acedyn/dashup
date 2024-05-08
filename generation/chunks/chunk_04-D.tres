@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Quandidate" load_steps=3 format=3 uid="uid://due02l545fkea"]
+
+[ext_resource type="PackedScene" uid="uid://4om6pt1c73fp" path="res://generation/chunks/chunk_04.tscn" id="1_qv6ww"]
+[ext_resource type="Script" path="res://generation/quandidate.gd" id="2_u0rbv"]
+
+[resource]
+script = ExtResource("2_u0rbv")
+analyse = false
+scene = ExtResource("1_qv6ww")
+polygon_node_name = "Polygon2D1"
+weight = 1.0
+slope = -45.0
+openning_offset = -96.0
+transform = Transform2D(-1, 0, 0, -1, 0, 0)
+type = 1
+internal_bounds = Array[Vector2]([Vector2(-320, -48), Vector2(320, -48), Vector2(-224, 48), Vector2(320, 48)])
