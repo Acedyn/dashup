@@ -15,10 +15,17 @@ run/main_scene="res://world/world.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://globals.gd"
+
 [display]
 
+window/size/viewport_width=720
+window/size/viewport_height=720
 window/stretch/mode="viewport"
-window/stretch/aspect="keep_height"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [editor]
 

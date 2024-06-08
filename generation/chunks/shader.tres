@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b5eo5tc3usv0e"]
+
+[ext_resource type="Shader" path="res://generation/chunks/chunk.gdshader" id="1_xr0n7"]
+
+[resource]
+shader = ExtResource("1_xr0n7")
+shader_parameter/bounds = null
+shader_parameter/testMix = -0.59
+shader_parameter/colorA = Color(0.1885, 0.062, 0.2, 1)
+shader_parameter/colorB = Color(0.37, 0.853, 1, 1)
+shader_parameter/stepSize = 4.005
+shader_parameter/stepPow = 5.485
+shader_parameter/stepIn = 0.24
+shader_parameter/stepOut = 0.935
+shader_parameter/stepSmoothness = 0.145
+shader_parameter/waveOffset = 0.185
+shader_parameter/waveAmplitude = 0.1
+shader_parameter/waveFrequency = 80.0

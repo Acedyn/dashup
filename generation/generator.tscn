@@ -27,6 +27,11 @@
 script = ExtResource("1_sof1i")
 quandidates = Array[Resource]([ExtResource("2_bpubt"), ExtResource("3_to57w"), ExtResource("4_l6kbt"), ExtResource("5_ehmnp"), ExtResource("4_n6k3m"), ExtResource("5_8no4w"), ExtResource("8_0qnnp"), ExtResource("9_6slb7"), ExtResource("6_65kgf"), ExtResource("7_aqsfs"), ExtResource("12_57ky3"), ExtResource("13_7rmic"), ExtResource("8_edlcd"), ExtResource("9_uwdww"), ExtResource("16_w0wtt"), ExtResource("17_hdy8m"), ExtResource("10_0uefm"), ExtResource("11_jcnh1"), ExtResource("20_i85t8"), ExtResource("21_lcfxc")])
 
+[node name="Chunk11" parent="." instance=ExtResource("2_drc80")]
+position = Vector2(584, 968)
+rotation = -1.5708
+scale = Vector2(1, 10)
+
 [node name="Chunk01" parent="." instance=ExtResource("2_drc80")]
 position = Vector2(160, 600)
 
