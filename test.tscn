@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://y8l434pqg5mb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ixtio"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wumgw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fee3f"]
+size = Vector2(276.5, 53)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3dqyb"]
+
+[node name="RigidBody2D" type="RigidBody2D"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Node2D" type="Node2D" parent="Node2D"]
+position = Vector2(258, 217)
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Node2D/Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Node2D/RigidBody2D"]
+position = Vector2(-11, -27)
+shape = SubResource("CircleShape2D_ixtio")
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="Node2D/Node2D"]
+position = Vector2(-26, 15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Node2D/RigidBody2D2"]
+position = Vector2(-11, -27)
+shape = SubResource("CircleShape2D_ixtio")
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="Node2D/Node2D"]
+position = Vector2(-12, -27)
+rotation = 1.05418
+node_a = NodePath("../RigidBody2D")
+node_b = NodePath("../RigidBody2D2")
+length = 25.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D"]
+physics_material_override = SubResource("PhysicsMaterial_wumgw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D"]
+position = Vector2(111, 245)
+shape = SubResource("RectangleShape2D_fee3f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3dqyb")

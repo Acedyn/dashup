@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Nouveau projet de jeu"
+config/name="Dashup"
 run/main_scene="res://world/world.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -21,7 +21,7 @@ Globals="*res://globals.gd"
 
 [display]
 
-window/size/viewport_width=720
+window/size/viewport_width=480
 window/size/viewport_height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"

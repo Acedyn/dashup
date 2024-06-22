@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://cspkwwp78gdy5"]
+
+[ext_resource type="Theme" uid="uid://bk5epqma8tn80" path="res://ui/cute_dino.tres" id="1_8ki4x"]
+[ext_resource type="Script" path="res://world/score.gd" id="1_h7d23"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_8ki4x")
+theme_override_font_sizes/font_size = 56
+text = "0"
+script = ExtResource("1_h7d23")

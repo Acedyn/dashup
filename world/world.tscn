@@ -1,21 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvt4iednstil7"]
+[gd_scene load_steps=5 format=3 uid="uid://cvt4iednstil7"]
 
 [ext_resource type="PackedScene" uid="uid://bi1rkqhe7v3s3" path="res://player/player.tscn" id="1_ft35p"]
 [ext_resource type="PackedScene" uid="uid://cwe7m1gdolhda" path="res://generation/generator.tscn" id="3_mean7"]
-[ext_resource type="Script" path="res://world/score.gd" id="4_pda52"]
+[ext_resource type="PackedScene" uid="uid://cspkwwp78gdy5" path="res://ui/hud.tscn" id="4_i2tj3"]
 [ext_resource type="Script" path="res://world/camera.gd" id="9_xvewl"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2ovmp"]
-friction = 0.2
-bounce = 0.8
-
-[sub_resource type="SystemFont" id="SystemFont_0688i"]
 
 [node name="World" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_ft35p")]
 position = Vector2(580, 309)
-physics_material_override = SubResource("PhysicsMaterial_2ovmp")
 
 [node name="Generator" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_mean7")]
 min_openning_size = 80.0
@@ -28,25 +21,4 @@ follow_node = NodePath("../Player")
 scroll_speed = 100.0
 delay = 0.2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -361.0
-offset_top = -359.0
-offset_right = 359.0
-offset_bottom = 361.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="Camera2D/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-
-[node name="Label" type="Label" parent="Camera2D/VBoxContainer/MarginContainer"]
-layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_0688i")
-text = "SCORE:"
-script = ExtResource("4_pda52")
+[node name="CanvasLayer" parent="." instance=ExtResource("4_i2tj3")]

@@ -1,20 +1,489 @@
-[gd_scene load_steps=3 format=3 uid="uid://bi1rkqhe7v3s3"]
+[gd_scene load_steps=11 format=3 uid="uid://bi1rkqhe7v3s3"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_ko6lp"]
+[ext_resource type="Script" path="res://player/soft_body.gd" id="2_qq4in"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7wv7a"]
-radius = 24.0832
+[sub_resource type="CircleShape2D" id="CircleShape2D_sqc2v"]
+radius = 12.5
 
-[node name="Player" type="RigidBody2D"]
-script = ExtResource("1_ko6lp")
+[sub_resource type="CircleShape2D" id="CircleShape2D_q5nrn"]
+radius = 12.4722
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(1, 0, 1, 1)
-polygon = PackedVector2Array(0, -24, 10, -22, 18, -18, 22, -10, 24, 0, 22, 10, 18, 18, 10, 22, 0, 24, -10, 22, -18, 18, -22, 10, -24, 0, -22, -10, -18, -18, -10, -22)
-uv = PackedVector2Array(0, -24, 10, -22, 18, -18, 22, -10, 24, 0, 22, 10, 18, 18, 10, 22, 0, 24, -10, 22, -18, 18, -22, 10, -24, 0, -22, -10, -18, -18, -10, -22)
+[sub_resource type="CircleShape2D" id="CircleShape2D_5e22c"]
+radius = 12.4722
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_7wv7a")
+[sub_resource type="CircleShape2D" id="CircleShape2D_5mrkh"]
+radius = 12.4722
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_7wv7a")
+[sub_resource type="CircleShape2D" id="CircleShape2D_6tcsy"]
+radius = 12.4722
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6jhdu"]
+radius = 12.4722
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7770q"]
+radius = 12.4722
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fee3f"]
+size = Vector2(276.5, 53)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ixtio"]
+
+[node name="Player" type="Node2D"]
+position = Vector2(0, -1)
+
+[node name="SoftBody" type="Node" parent="."]
+script = ExtResource("2_qq4in")
+radius = 50.0
+squeleton_point_count = 6
+
+[node name="soft_body_shape" type="Polygon2D" parent="SoftBody"]
+polygon = PackedVector2Array(0, 50, 9.75452, 49.0393, 19.1342, 46.194, 27.7785, 41.5735, 35.3553, 35.3553, 41.5735, 27.7785, 46.194, 19.1342, 49.0393, 9.75452, 50, 3.06162e-15, 49.0393, -9.75452, 46.194, -19.1342, 41.5735, -27.7785, 35.3553, -35.3553, 27.7785, -41.5735, 19.1342, -46.194, 9.75452, -49.0393, 6.12323e-15, -50, -9.75452, -49.0393, -19.1342, -46.194, -27.7785, -41.5735, -35.3553, -35.3553, -41.5735, -27.7785, -46.194, -19.1342, -49.0393, -9.75452, -50, -9.18485e-15, -49.0393, 9.75452, -46.194, 19.1342, -41.5735, 27.7785, -35.3553, 35.3553, -27.7785, 41.5735, -19.1342, 46.194, -9.75452, 49.0393)
+
+[node name="rbd_center" type="RigidBody2D" parent="SoftBody"]
+
+[node name="0" type="CollisionShape2D" parent="SoftBody/rbd_center"]
+shape = SubResource("CircleShape2D_sqc2v")
+
+[node name="rbd_0" type="RigidBody2D" parent="SoftBody"]
+position = Vector2(0, 37.5278)
+
+[node name="0" type="CollisionShape2D" parent="SoftBody/rbd_0"]
+shape = SubResource("CircleShape2D_q5nrn")
+
+[node name="rbd_1" type="RigidBody2D" parent="SoftBody"]
+position = Vector2(32.5001, 18.7639)
+
+[node name="0" type="CollisionShape2D" parent="SoftBody/rbd_1"]
+shape = SubResource("CircleShape2D_5e22c")
+
+[node name="rbd_2" type="RigidBody2D" parent="SoftBody"]
+position = Vector2(32.5001, -18.7639)
+
+[node name="0" type="CollisionShape2D" parent="SoftBody/rbd_2"]
+shape = SubResource("CircleShape2D_5mrkh")
+
+[node name="rbd_3" type="RigidBody2D" parent="SoftBody"]
+position = Vector2(4.59584e-15, -37.5278)
+
+[node name="0" type="CollisionShape2D" parent="SoftBody/rbd_3"]
+shape = SubResource("CircleShape2D_6tcsy")
+
+[node name="rbd_4" type="RigidBody2D" parent="SoftBody"]
+position = Vector2(-32.5001, -18.7639)
+
+[node name="0" type="CollisionShape2D" parent="SoftBody/rbd_4"]
+shape = SubResource("CircleShape2D_6jhdu")
+
+[node name="rbd_5" type="RigidBody2D" parent="SoftBody"]
+position = Vector2(-32.5001, 18.7639)
+
+[node name="0" type="CollisionShape2D" parent="SoftBody/rbd_5"]
+shape = SubResource("CircleShape2D_7770q")
+
+[node name="@Skeleton2D@50500" type="Skeleton2D" parent="SoftBody"]
+
+[node name="@Bone2D@50507" type="Bone2D" parent="SoftBody/@Skeleton2D@50500"]
+position = Vector2(0, 37.5278)
+
+[node name="@Bone2D@50514" type="Bone2D" parent="SoftBody/@Skeleton2D@50500"]
+position = Vector2(32.5001, 18.7639)
+
+[node name="@Bone2D@50521" type="Bone2D" parent="SoftBody/@Skeleton2D@50500"]
+position = Vector2(32.5001, -18.7639)
+
+[node name="@Bone2D@50528" type="Bone2D" parent="SoftBody/@Skeleton2D@50500"]
+position = Vector2(4.59584e-15, -37.5278)
+
+[node name="@Bone2D@50535" type="Bone2D" parent="SoftBody/@Skeleton2D@50500"]
+position = Vector2(-32.5001, -18.7639)
+
+[node name="@Bone2D@50542" type="Bone2D" parent="SoftBody/@Skeleton2D@50500"]
+position = Vector2(-32.5001, 18.7639)
+
+[node name="spring_center_rbd_0_0" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(0, 37.5278)
+rotation = 3.14159
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_center")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_0_0" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, 18.7639)
+rotation = 1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_0_1" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, -18.7639)
+rotation = 0.523599
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_0_2" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(4.59584e-15, -37.5278)
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+length = 75.0557
+rest_length = 75.0557
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_0_3" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, -18.7639)
+rotation = -0.523599
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_0_4" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, 18.7639)
+rotation = -1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_center_rbd_1_1" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, 18.7639)
+rotation = 2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_center")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_1_1" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(0, 37.5278)
+rotation = -2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_1_2" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, -18.7639)
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_1_3" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(4.59584e-15, -37.5278)
+rotation = -0.523599
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_1_4" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, -18.7639)
+rotation = -1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+length = 75.0557
+rest_length = 75.0557
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_1_5" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, 18.7639)
+rotation = -1.5708
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_center_rbd_2_2" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, -18.7639)
+rotation = 1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_center")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_2_2" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(0, 37.5278)
+rotation = -2.61799
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_2_3" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, 18.7639)
+rotation = -3.14159
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_2_4" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(4.59584e-15, -37.5278)
+rotation = -1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_2_5" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, -18.7639)
+rotation = -1.5708
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_2_6" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, 18.7639)
+rotation = -2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+length = 75.0557
+rest_length = 75.0557
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_center_rbd_3_3" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(4.59584e-15, -37.5278)
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_center")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_3_3" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(0, 37.5278)
+rotation = -3.14159
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+length = 75.0557
+rest_length = 75.0557
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_3_4" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, 18.7639)
+rotation = 2.61799
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_3_5" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, -18.7639)
+rotation = 2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_3_6" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, -18.7639)
+rotation = -2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_3_7" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, 18.7639)
+rotation = -2.61799
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_center_rbd_4_4" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, -18.7639)
+rotation = -1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_center")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_4_4" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(0, 37.5278)
+rotation = 2.61799
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_4_5" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, 18.7639)
+rotation = 2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+length = 75.0557
+rest_length = 75.0557
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_4_6" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, -18.7639)
+rotation = 1.5708
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_4_7" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(4.59584e-15, -37.5278)
+rotation = 1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_4_8" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, 18.7639)
+rotation = -3.14159
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_center_rbd_5_5" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, 18.7639)
+rotation = -2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_center")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_5_5" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(0, 37.5278)
+rotation = 2.0944
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_0")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_5_6" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, 18.7639)
+rotation = 1.5708
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_1")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_5_7" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(32.5001, -18.7639)
+rotation = 1.0472
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_2")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+length = 75.0557
+rest_length = 75.0557
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_5_8" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(4.59584e-15, -37.5278)
+rotation = 0.523599
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_3")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+length = 65.0001
+rest_length = 65.0001
+stiffness = 128.0
+damping = 32.0
+
+[node name="spring_rbd_5_9" type="DampedSpringJoint2D" parent="SoftBody"]
+position = Vector2(-32.5001, -18.7639)
+node_a = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_4")
+node_b = NodePath("/root/@EditorNode@16881/@Panel@13/@VBoxContainer@14/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@25/DockVSplitCenter/@VSplitContainer@52/@VBoxContainer@53/@PanelContainer@98/MainScreen/@CanvasItemEditor@9271/@VSplitContainer@9093/@HSplitContainer@9095/@HSplitContainer@9097/@Control@9098/@SubViewportContainer@9099/@SubViewport@9100/Player/SoftBody/rbd_5")
+length = 37.5278
+rest_length = 37.5278
+stiffness = 128.0
+damping = 32.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+rotation = 0.675442
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(84.4572, 175.792)
+rotation = -0.677151
+shape = SubResource("RectangleShape2D_fee3f")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(106, 160)
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/RigidBody2D"]
+position = Vector2(-11, -27)
+shape = SubResource("CircleShape2D_ixtio")
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="Node2D"]
+position = Vector2(-26, 15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/RigidBody2D2"]
+position = Vector2(-11, -27)
+shape = SubResource("CircleShape2D_ixtio")
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="Node2D"]
+position = Vector2(-12, -27)
+rotation = 1.05418
+node_a = NodePath("../RigidBody2D")
+node_b = NodePath("../RigidBody2D2")
+length = 25.0
+stiffness = 64.0
