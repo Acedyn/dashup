@@ -1,6 +1,10 @@
 #include "register_types.h"
 
 #include "dashup.h"
+#include "map/dashup_map.h"
+#include "map/map_path.h"
+#include "map/path_node.h"
+#include "camera/dashup_camera.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -13,7 +17,11 @@ void initialize_dashup_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 
+	GDREGISTER_CLASS(DashUpCamera);
 	GDREGISTER_CLASS(DashUp);
+	GDREGISTER_CLASS(DashUpMap);
+	GDREGISTER_CLASS(MapPath);
+	GDREGISTER_CLASS(PathNode);
 }
 
 void uninitialize_dashup_module(ModuleInitializationLevel p_level) {

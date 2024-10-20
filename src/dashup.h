@@ -1,12 +1,12 @@
 #ifndef DASHUP_H
 #define DASHUP_H
 
-#include <godot_cpp/classes/sprite2d.hpp>
+#include <godot_cpp/classes/node2d.hpp>
 
 namespace godot {
 
-class DashUp : public Sprite2D {
-	GDCLASS(DashUp, Sprite2D)
+class DashUp : public Node2D {
+	GDCLASS(DashUp, Node2D)
 
 private:
 	double time_passed;

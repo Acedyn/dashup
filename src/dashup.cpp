@@ -3,11 +3,9 @@
 
 using namespace godot;
 
-void DashUp::_bind_methods() {
-}
+void DashUp::_bind_methods() {}
 
 DashUp::DashUp() {
-	// Initialize any variables here.
 	time_passed = 0.0;
 }
 
