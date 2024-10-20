@@ -22,11 +22,12 @@ NodePath DashUpMap::get_camera_path() {
 }
 
 void DashUpMap::set_camera_path(const NodePath& p_camera_path) {
+  // TODO: Handle signal disconnection
   // Validate the node path
-  DashUpCamera* camera = get_node<DashUpCamera>(p_camera_path);
-  if(camera) {
+  DashUpCamera* new_camera = get_node<DashUpCamera>(p_camera_path);
+  if(new_camera) {
     camera_path = p_camera_path;
-    camera->connect("script_changed", Callable(map_path, "grow_nodes"));
+    new_camera->connect("changed", Callable(map_path, "grow_nodes"));
   } else {
     camera_path = NodePath();
   }

@@ -15,11 +15,17 @@ protected:
 
 private:
   Vector<PathNode*> heads;
-  PathNode* add_node(Vector2 position);
+  Rect2 heads_bounds;
+  float grow_scale = 1.0;
+
+  PathNode* add_node(PathNode* p_parent);
+  void compute_bounds();
 
 public:
   void grow_nodes();
 	void _enter_tree() override;
+  float get_grow_scale();
+  void set_grow_scale(const float p_grow_scale);
 };
 
 }

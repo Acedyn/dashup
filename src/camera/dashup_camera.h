@@ -10,6 +10,7 @@ class DashUpCamera: public Camera2D {
 
 protected:
 	static void _bind_methods();
+	void _notification(int p_what);
 };
 
 }
