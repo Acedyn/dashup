@@ -24,6 +24,7 @@ public:
 
   NodePath get_camera_path();
   void set_camera_path(const NodePath& p_camera_path);
+  void on_camera_updated(Camera2D* p_camera);
 
 	void _process(double delta) override;
 	void _enter_tree() override;

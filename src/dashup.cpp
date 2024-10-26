@@ -1,22 +1,21 @@
 #include "dashup.h"
+#include "godot_cpp/classes/scene_tree.hpp"
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
 
 void DashUp::_bind_methods() {}
 
-DashUp::DashUp() {
-	time_passed = 0.0;
-}
-
-DashUp::~DashUp() {
-	// Add your cleanup here.
-}
+DashUp::DashUp(): map(memnew(DashUpMap)), camera(memnew(DashUpCamera)) {}
 
 void DashUp::_process(double delta) {
-	time_passed += delta;
+}
 
-	Vector2 new_position = Vector2(10.0 + (10.0 * Math::sin(time_passed * 2.0)), 10.0 + (10.0 * Math::cos(time_passed * 1.5)));
-
-	set_position(new_position);
+void DashUp::_enter_tree() {
+  // Enable for debug purpose only
+	add_child(map);
+	map->set_owner(get_tree()->get_edited_scene_root());
+	add_child(camera);
+	camera->set_owner(get_tree()->get_edited_scene_root());
+  map->set_camera_path(camera->get_path());
 }

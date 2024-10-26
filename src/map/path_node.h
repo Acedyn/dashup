@@ -10,11 +10,15 @@ class PathNode : public Node2D {
 
 protected:
 	static void _bind_methods();
+  float fertility = 0.1;
 
 public:
   Vector2 position = Vector2();
   Vector<PathNode*> next;
   PathNode* previous;
+
+  float get_fertility();
+  void set_fertility(float p_fertility);
 
   PathNode();
   PathNode(PathNode* p_previous);

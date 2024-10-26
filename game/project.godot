@@ -10,8 +10,7 @@ config_version=5
 
 [application]
 
-config/name="DashUp"
-run/main_scene="res://node_2d.tscn"
+config/name="dash-up"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
