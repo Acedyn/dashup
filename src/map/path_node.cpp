@@ -12,12 +12,34 @@ void PathNode::_bind_methods() {
 float PathNode::get_fertility() {
   return fertility;
 }
+
 void PathNode::set_fertility(float p_fertility) {
   fertility = Math::clamp<float>(p_fertility, 0, 1);
 }
 
+Vector2 PathNode::get_average_position(Vector<PathNode*> nodes) {
+  if(nodes.size() == 0) {
+    return get_position();
+  }
+
+  Vector2 average_position = Vector2();
+  for(PathNode* node: nodes) {
+    average_position += node->get_position();
+  }
+
+  return average_position / nodes.size();
+}
+
+Vector2 PathNode::get_previous_position() {
+  return get_average_position(previous);
+}
+
+Vector2 PathNode::get_next_position() {
+  return get_average_position(next);
+}
+
 PathNode::PathNode() {}
-PathNode::PathNode(PathNode* p_previous): previous(p_previous) {}
-PathNode::PathNode(PathNode* p_previous, Vector2 &p_position): previous(p_previous), position(p_position) {}
-PathNode::PathNode(PathNode* p_previous, Vector<PathNode*> p_next, Vector2 &p_position): previous(p_previous), next(p_next), position(p_position) {}
+PathNode::PathNode(Vector<PathNode*> p_previous): previous(p_previous) {}
+PathNode::PathNode(Vector<PathNode*> p_previous, Vector2 &p_position): previous(p_previous), position(p_position) {}
+PathNode::PathNode(Vector<PathNode*> p_previous, Vector<PathNode*> p_next, Vector2 &p_position): previous(p_previous), next(p_next), position(p_position) {}
 

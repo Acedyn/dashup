@@ -23,8 +23,8 @@ PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)
   PathNode* new_path_node = memnew(PathNode);
   if(p_parent && UtilityFunctions::is_instance_valid(p_parent)) {
     // Get the existing angle if there is one
-    if(p_parent->previous && UtilityFunctions::is_instance_valid(p_parent->previous)) {
-      Vector2 previous_direction = p_parent->get_position() - p_parent->previous->get_position();
+    if(p_parent->previous.size() > 0) {
+      Vector2 previous_direction = p_parent->get_position() - p_parent->get_previous_position();
       p_offset = p_offset.rotated(-previous_direction.normalized().angle_to(Vector2(0, -1)));
     }
 
@@ -34,8 +34,9 @@ PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)
       p_offset = p_offset.rotated(max_angle - rotation_angle);
     }
     p_offset = Vector2(p_offset.x * (1 / p_offset.y), 1);
-    new_path_node->previous = p_parent;
+    new_path_node->previous.push_back(p_parent);
     new_path_node->set_position(p_parent->get_position() + p_offset * -grow_scale);
+    p_parent->next.push_back(new_path_node);
   }
 	add_child(new_path_node);
 
@@ -47,7 +48,7 @@ PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)
 void MapPath::grow_nodes(Rect2 camera_view) {
   Vector<PathNode*> new_heads = Vector<PathNode*>();
   for(PathNode* path_node: heads) {
-    if(camera_view.encloses(Rect2(path_node->get_position(), Vector2(0, 0)))) {
+    if(!camera_view.encloses(Rect2(path_node->get_position(), Vector2(0, 0)))) {
       continue;
     }
     if(path_node->get_fertility() > UtilityFunctions::randf_range(0, 1)) {
