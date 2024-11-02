@@ -17,6 +17,14 @@ void PathNode::set_fertility(float p_fertility) {
   fertility = Math::clamp<float>(p_fertility, 0, 1);
 }
 
+Vector<PathNode*> PathNode::get_next() {
+  return next;
+}
+
+Vector<PathNode*> PathNode::get_previous() {
+  return previous;
+}
+
 Vector2 PathNode::get_average_position(Vector<PathNode*> nodes) {
   if(nodes.size() == 0) {
     return get_position();

@@ -24,6 +24,8 @@ public:
   void set_fertility(float p_fertility);
   Vector2 get_previous_position();
   Vector2 get_next_position();
+  Vector<PathNode*> get_next();
+  Vector<PathNode*> get_previous();
 
   PathNode();
   PathNode(Vector<PathNode*> p_previous);

@@ -15,6 +15,7 @@ protected:
 
 private:
   Vector<PathNode*> heads;
+  PathNode* tail;
   Rect2 heads_bounds = Rect2();
   float grow_scale = 100.0;
   float max_angle = 0.4 * Math_PI;
@@ -27,6 +28,7 @@ public:
 	void _enter_tree() override;
 	void _draw() override;
   float get_grow_scale();
+  PathNode* get_tail();
   void set_grow_scale(const float p_grow_scale);
   float get_max_angle();
   void set_max_angle(const float p_max_angle);

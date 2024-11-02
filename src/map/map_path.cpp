@@ -40,6 +40,10 @@ PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)
   }
 	add_child(new_path_node);
 
+  if(!tail) {
+    tail = new_path_node;
+  }
+
   // Enable for debug purpose only
 	new_path_node->set_owner(get_tree()->get_edited_scene_root());
   return new_path_node;
@@ -52,8 +56,10 @@ void MapPath::grow_nodes(Rect2 camera_view) {
       continue;
     }
     if(path_node->get_fertility() > UtilityFunctions::randf_range(0, 1)) {
-      new_heads.push_back(add_node(path_node, Vector2(0.5, -1)));
+      // Its very important to build the left node before the right one
+      // because it is required for the wall build
       new_heads.push_back(add_node(path_node, Vector2(-0.5, -1)));
+      new_heads.push_back(add_node(path_node, Vector2(0.5, -1)));
     } else {
       new_heads.push_back(add_node(path_node));
     }
@@ -87,6 +93,10 @@ void MapPath::compute_bounds() {
 
 float MapPath::get_grow_scale() {
   return grow_scale;
+}
+
+PathNode* MapPath::get_tail() {
+  return tail;
 }
 
 void MapPath::set_grow_scale(float p_grow_scale) {
