@@ -91,21 +91,21 @@ void DashUpMap::on_camera_updated(Camera2D* p_camera) {
   }
 }
 
-const TypedArray<PackedVector2Array> DashUpMap::post_process_wall(const PackedVector2Array& polygons) {
+const TypedArray<PackedVector2Array> DashUpMap::post_process_wall(const Vector<PathNode*> polygons) {
   PackedVector2Array new_polyons = PackedVector2Array();
   for(int i = 0; i < polygons.size(); i++) {
     // Get the point and its neighbours
-    Vector2 point = polygons[i];
+    Vector2 point = polygons[i]->get_position();
     int previous_index = i - 1;
     if(i == 0) {
       previous_index = polygons.size() - 1;
     }
-    Vector2 previous_point = polygons[previous_index];
+    Vector2 previous_point = polygons[previous_index]->get_position();
     int next_index = i + 1;
     if(i == polygons.size()-1) {
       next_index = 0;
     }
-    Vector2 next_point = polygons[next_index];
+    Vector2 next_point = polygons[next_index]->get_position();
 
     // Remove the points that are straight
     Vector2 direction_previous = (previous_point - point).normalized();
@@ -123,29 +123,35 @@ const TypedArray<PackedVector2Array> DashUpMap::post_process_wall(const PackedVe
 }
 
 Vector<Polygon2D*> DashUpMap::build_wall(Vector<PathNode*> up, Vector<PathNode*> down) {
-  PackedVector2Array polygon = PackedVector2Array();
+  Vector<PathNode*> polygon = Vector<PathNode*>();
 
   if(down.size() == 0 && up.size() > 0) {
     // Build the left wall
-    polygon.append(up[0]->get_position() + Vector2(-path_width_max*10, 0));
+    PathNode top_left = (*up[0]);
+    top_left.set_position(top_left.get_position() + Vector2(-path_width_max*10, 0));
+    polygon.append(&top_left);
     for(PathNode* node: up) {
-      polygon.append(node->get_position());
+      polygon.append(node);
     }
-    polygon.append(up[up.size()-1]->get_position() + Vector2(-path_width_max*10, 0));
+    PathNode bottom_left = (*up[0]);
+    bottom_left.set_position(bottom_left.get_position() + Vector2(-path_width_max*10, 0));
   } else if (up.size() == 0 && down.size() > 0) {
     // Build the right wall
-    polygon.append(down[0]->get_position() + Vector2(path_width_max*10, 0));
-    for(PathNode* node: down) {
-      polygon.append(node->get_position());
+    PathNode top_right = (*up[0]);
+    top_right.set_position(top_right.get_position() + Vector2(+path_width_max*10, 0));
+    polygon.append(&top_right);
+    for(PathNode* node: up) {
+      polygon.append(node);
     }
-    polygon.append(down[down.size()-1]->get_position() + Vector2(path_width_max*10, 0));
+    PathNode bottom_right = (*up[0]);
+    bottom_right.set_position(bottom_right.get_position() + Vector2(+path_width_max*10, 0));
   } else {
     for(PathNode* node: down) {
       // Walls between each ramifications
-      polygon.append(node->get_position());
+      polygon.append(node);
     }
     for(PathNode* node: up) {
-      polygon.append(node->get_position());
+      polygon.append(node);
     }
   }
 
@@ -213,6 +219,7 @@ void DashUpMap::build_walls() {
   walls = Vector<Polygon2D*>();
 
   // Rebuild the walls
+  return;
   traverse_node(map_path->get_tail(), Vector<PathNode*>{map_path->get_tail()}, Vector<PathNode*>{});
 }
 

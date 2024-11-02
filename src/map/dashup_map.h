@@ -22,7 +22,7 @@ private:
   Vector<Polygon2D*> walls = Vector<Polygon2D*>();
 	void build_walls();
 	Vector<Polygon2D*> build_wall(Vector<PathNode*> up, Vector<PathNode*> down);
-	const TypedArray<PackedVector2Array> post_process_wall(const PackedVector2Array& polygons);
+	const TypedArray<PackedVector2Array> post_process_wall(const Vector<PathNode*> polygons);
 	void traverse_node(PathNode* node, Vector<PathNode*> up, Vector<PathNode*> down);
 
 protected:
