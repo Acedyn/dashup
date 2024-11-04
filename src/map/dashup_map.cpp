@@ -28,7 +28,7 @@ void DashUpMap::_bind_methods() {
   ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "path_width_texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_path_width_texture", "get_path_width_texture");
 }
 
-DashUpMap::DashUpMap(): map_path(memnew(MapPath)), path_width_min(50), path_width_max(100) {}
+DashUpMap::DashUpMap() {}
 
 DashUpMap::~DashUpMap() {}
 

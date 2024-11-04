@@ -14,12 +14,13 @@ class DashUpMap : public Node2D {
 	GDCLASS(DashUpMap, Node2D)
 
 private:
-  float path_width_min;
-  float path_width_max;
-  Texture2D* path_width_texture;
-  NodePath camera_path;
-  MapPath* map_path;
+  float path_width_min = 50;
+  float path_width_max = 100;
+  Texture2D* path_width_texture = nullptr;
+  NodePath camera_path = NodePath();
+  MapPath* map_path = memnew(MapPath);
   Vector<Polygon2D*> walls = Vector<Polygon2D*>();
+
 	void build_walls();
 	Vector<Polygon2D*> build_wall(Vector<PathNode*> up, Vector<PathNode*> down);
 	const TypedArray<PackedVector2Array> post_process_wall(const Vector<PathNode*> polygons);

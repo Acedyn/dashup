@@ -14,8 +14,8 @@ protected:
 	static void _bind_methods();
 
 private:
-  Vector<PathNode*> heads;
-  PathNode* tail;
+  Vector<PathNode*> heads = Vector<PathNode*>();
+  PathNode* tail = nullptr;
   Rect2 heads_bounds = Rect2();
   float grow_scale = 100.0;
   float max_angle = 0.4 * Math_PI;
