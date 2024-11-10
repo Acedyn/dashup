@@ -16,6 +16,7 @@ class DashUpMap : public Node2D {
 private:
   float path_width_min = 50;
   float path_width_max = 100;
+  float bevel_size = 10;
   NodePath camera_path = NodePath();
   MapPath* map_path = memnew(MapPath);
   Vector<Polygon2D*> walls = Vector<Polygon2D*>();
@@ -23,6 +24,7 @@ private:
 	void build_walls();
 	Vector<Polygon2D*> build_wall(Vector<PathNode*> up, Vector<PathNode*> down);
 	const TypedArray<PackedVector2Array> post_process_wall(const Vector<PathNode*> polygons);
+	const PackedVector2Array bevel_wall(PackedVector2Array& polygon);
 	void traverse_node(PathNode* node, Vector<PathNode*> up, Vector<PathNode*> down);
 
 protected:
@@ -34,6 +36,8 @@ public:
 
   NodePath get_camera_path();
   void set_camera_path(const NodePath& p_camera_path);
+  float get_bevel_size();
+  void set_bevel_size(const float p_bevel_size);
   float get_path_width_min();
   void set_path_width_min(const float p_path_width);
   float get_path_width_max();

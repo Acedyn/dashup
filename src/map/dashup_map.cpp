@@ -4,8 +4,8 @@
 #include "godot_cpp/classes/geometry2d.hpp"
 #include "godot_cpp/classes/polygon2d.hpp"
 #include "godot_cpp/classes/viewport.hpp"
-#include "godot_cpp/core/math.hpp"
 #include "godot_cpp/variant/callable.hpp"
+#include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
@@ -18,6 +18,9 @@ void DashUpMap::_bind_methods() {
   ClassDB::bind_method(D_METHOD("get_camera"), &DashUpMap::get_camera_path);
   ClassDB::bind_method(D_METHOD("set_camera", "p_camera"), &DashUpMap::set_camera_path);
   ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "camera", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DashUpCamera"), "set_camera", "get_camera");
+  ClassDB::bind_method(D_METHOD("get_bevel_size"), &DashUpMap::get_bevel_size);
+  ClassDB::bind_method(D_METHOD("set_bevel_size", "p_bevel_size"), &DashUpMap::set_bevel_size);
+  ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "bevel_size"), "set_bevel_size", "get_bevel_size");
   ClassDB::bind_method(D_METHOD("get_path_width_min"), &DashUpMap::get_path_width_min);
   ClassDB::bind_method(D_METHOD("set_path_width_min", "p_path_width"), &DashUpMap::set_path_width_min);
   ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "path_width_min"), "set_path_width_min", "get_path_width_min");
@@ -44,6 +47,14 @@ void DashUpMap::set_camera_path(const NodePath& p_camera_path) {
   } else {
     camera_path = NodePath();
   }
+}
+
+float DashUpMap::get_bevel_size() {
+  return bevel_size;
+}
+
+void DashUpMap::set_bevel_size(const float p_bevel_size) {
+  bevel_size = p_bevel_size;
 }
 
 float DashUpMap::get_path_width_min() {
@@ -84,6 +95,59 @@ void DashUpMap::on_camera_updated(Camera2D* p_camera) {
   }
 }
 
+const PackedVector2Array DashUpMap::bevel_wall(PackedVector2Array& polygon) {
+  if(Math::is_zero_approx(bevel_size)) {
+    return polygon;
+  }
+
+  PackedVector2Array* new_polyon = memnew(PackedVector2Array());
+  for(int i = 0; i < polygon.size(); i++) {
+    // Get the point and its neighbours
+    Vector2 point = polygon[i];
+    int previous_index = i - 1;
+    if(i == 0) {
+      previous_index = polygon.size() - 1;
+    }
+    Vector2 previous_point = polygon[previous_index];
+    int next_index = i + 1;
+    if(i == polygon.size()-1) {
+      next_index = 0;
+    }
+    Vector2 next_point = polygon[next_index];
+
+    // Skip the points that are to close to each other
+    if((previous_point - point).length() < bevel_size*2 || (next_point - point).length() < bevel_size*2) {
+      new_polyon->append(point);
+      continue;
+    }
+
+    // Skip the points that dont have a big angle
+    Vector2 direction_previous = (previous_point - point).normalized() * bevel_size;
+    Vector2 direction_next = (next_point - point).normalized() * bevel_size;
+    if(Math::abs(Math::abs(direction_previous.angle_to(direction_next)) - Math_PI) < Math::deg_to_rad(10.)) {
+      new_polyon->append(point);
+      continue;
+    }
+
+    new_polyon->append(point + direction_previous);
+
+    // Compute the intersection point to get the offset of the center point
+    Vector2 angle_previous = Vector2(-direction_previous.y, direction_previous.x);
+    Vector2 angle_next = Vector2(-direction_next.y, direction_next.x);
+		const real_t denom = angle_next.y * angle_previous.x - angle_next.x * angle_previous.y;
+		if (!Math::is_zero_approx(denom)) {
+      const Vector2 v = (point + direction_previous) - (point + angle_previous);
+      const real_t t = (angle_next.x * v.y - angle_next.y * v.x) / denom;
+      Vector2 intersection_point = (point + direction_previous) + t * angle_previous;
+      new_polyon->append(intersection_point + (point - intersection_point).normalized()*intersection_point.distance_to(point + direction_previous));
+		}
+
+    new_polyon->append(point + direction_next);
+  }
+
+  return *new_polyon;
+}
+
 const TypedArray<PackedVector2Array> DashUpMap::post_process_wall(const Vector<PathNode*> polygons) {
   PackedVector2Array new_polyons = PackedVector2Array();
   // Get the center of the polygon
@@ -93,28 +157,23 @@ const TypedArray<PackedVector2Array> DashUpMap::post_process_wall(const Vector<P
   }
   polygon_center = polygon_center / polygons.size();
 
-  for(int i = 0; i < polygons.size(); i++) {
-    // Get the point and its neighbours
-    Vector2 point = polygons[i]->get_position();
-    int previous_index = i - 1;
-    if(i == 0) {
-      previous_index = polygons.size() - 1;
-    }
-    Vector2 previous_point = polygons[previous_index]->get_position();
-    int next_index = i + 1;
-    if(i == polygons.size()-1) {
-      next_index = 0;
-    }
-    Vector2 next_point = polygons[next_index]->get_position();
+  for(PathNode* path_node: polygons) {
+    // Get the point position
+    Vector2 point = path_node->get_position();
 
     // Shrink the point
-    Vector2 direction_previous = (previous_point - point).normalized();
-    Vector2 direction_next = (next_point - point).normalized();
-    point += (polygon_center - point).normalized() * (polygons[i]->get_width() * (path_width_max - path_width_min));
+    point += (polygon_center - point).normalized() * (path_node->get_width() * (path_width_max - path_width_min));
     new_polyons.push_back(point);
   }
 
-  return Geometry2D::get_singleton()->offset_polygon(new_polyons, -path_width_min, Geometry2D::JOIN_SQUARE);
+  TypedArray<PackedVector2Array> processed_polygons = Geometry2D::get_singleton()->offset_polygon(new_polyons, -path_width_min, Geometry2D::JOIN_SQUARE);
+  for(int i = 0; i < processed_polygons.size(); i++) {
+    PackedVector2Array polygon = processed_polygons[i];
+    processed_polygons[i] = bevel_wall(polygon);
+  }
+
+  UtilityFunctions::print("PROCESSED", processed_polygons.size());
+  return processed_polygons;
 }
 
 Vector<Polygon2D*> DashUpMap::build_wall(Vector<PathNode*> up, Vector<PathNode*> down) {
@@ -152,6 +211,7 @@ Vector<Polygon2D*> DashUpMap::build_wall(Vector<PathNode*> up, Vector<PathNode*>
 
   // Assign and create the walls
   Vector<Polygon2D*> walls = Vector<Polygon2D*>();
+  UtilityFunctions::print("PROCESS WALL");
   TypedArray<PackedVector2Array> new_polyons = post_process_wall(polygon);
   for(int i = 0; i < new_polyons.size(); i++) {
     PackedVector2Array new_polyon = new_polyons[i];
