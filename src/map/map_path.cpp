@@ -1,5 +1,4 @@
 #include "map_path.h"
-#include "godot_cpp/variant/color.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 #include <godot_cpp/classes/random_number_generator.hpp>
 #include <godot_cpp/core/math.hpp>
@@ -16,6 +15,17 @@ void MapPath::_bind_methods() {
   ClassDB::bind_method(D_METHOD("get_max_angle"), &MapPath::get_max_angle);
   ClassDB::bind_method(D_METHOD("set_max_angle", "p_max_angle"), &MapPath::set_max_angle);
   ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "max_angle"), "set_max_angle", "get_max_angle");
+  ClassDB::bind_method(D_METHOD("get_path_width_texture"), &MapPath::get_path_width_texture);
+  ClassDB::bind_method(D_METHOD("set_path_width_texture", "p_path_width"), &MapPath::set_path_width_texture);
+  ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "path_width_texture", PROPERTY_HINT_RESOURCE_TYPE, "Noise"), "set_path_width_texture", "get_path_width_texture");
+}
+
+Ref<Noise> MapPath::get_path_width_texture() {
+  return path_width_texture;
+}
+
+void MapPath::set_path_width_texture(Ref<Noise> p_path_width_texture) {
+  path_width_texture = p_path_width_texture;
 }
 
 PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)) {
@@ -36,6 +46,14 @@ PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)
     p_offset = Vector2(p_offset.x * (1 / p_offset.y), 1);
     new_path_node->previous.push_back(p_parent);
     new_path_node->set_position(p_parent->get_position() + p_offset * -grow_scale);
+    if(path_width_texture.is_valid()) {
+      new_path_node->set_width(
+        path_width_texture->get_noise_2d(
+          new_path_node->get_position().x,
+          new_path_node->get_position().y
+        )
+      );
+    }
     p_parent->next.push_back(new_path_node);
   }
 	add_child(new_path_node);
@@ -52,7 +70,8 @@ PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)
 void MapPath::grow_nodes(Rect2 camera_view) {
   Vector<PathNode*> new_heads = Vector<PathNode*>();
   for(PathNode* path_node: heads) {
-    if(!camera_view.encloses(Rect2(path_node->get_position(), Vector2(0, 0)))) {
+    if(!camera_view.intersects(Rect2(path_node->get_position(), Vector2(0, 0)))) {
+      UtilityFunctions::print("NO INTERSECT", Rect2(path_node->get_position(), Vector2(0, 0)));
       continue;
     }
     if(path_node->get_fertility() > UtilityFunctions::randf_range(0, 1)) {
@@ -65,8 +84,10 @@ void MapPath::grow_nodes(Rect2 camera_view) {
     }
   }
 
-  heads = new_heads;
-  compute_bounds();
+  if(new_heads.size()) {
+    heads = new_heads;
+    compute_bounds();
+  }
 }
 
 void MapPath::compute_bounds() {

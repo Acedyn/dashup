@@ -16,7 +16,6 @@ class DashUpMap : public Node2D {
 private:
   float path_width_min = 50;
   float path_width_max = 100;
-  Texture2D* path_width_texture = nullptr;
   NodePath camera_path = NodePath();
   MapPath* map_path = memnew(MapPath);
   Vector<Polygon2D*> walls = Vector<Polygon2D*>();
@@ -39,8 +38,6 @@ public:
   void set_path_width_min(const float p_path_width);
   float get_path_width_max();
   void set_path_width_max(const float p_path_width);
-  Texture2D* get_path_width_texture();
-  void set_path_width_texture(Texture2D* p_path_width);
   void on_camera_updated(Camera2D* p_camera);
 
 	void _process(double delta) override;

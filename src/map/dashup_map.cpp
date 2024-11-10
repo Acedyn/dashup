@@ -6,6 +6,7 @@
 #include "godot_cpp/classes/viewport.hpp"
 #include "godot_cpp/core/math.hpp"
 #include "godot_cpp/variant/callable.hpp"
+#include "godot_cpp/variant/vector2.hpp"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -23,9 +24,6 @@ void DashUpMap::_bind_methods() {
   ClassDB::bind_method(D_METHOD("get_path_width_max"), &DashUpMap::get_path_width_max);
   ClassDB::bind_method(D_METHOD("set_path_width_max", "p_path_width"), &DashUpMap::set_path_width_max);
   ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "path_width_max"), "set_path_width_max", "get_path_width_max");
-  ClassDB::bind_method(D_METHOD("get_path_width_texture"), &DashUpMap::get_path_width_texture);
-  ClassDB::bind_method(D_METHOD("set_path_width_texture", "p_path_width"), &DashUpMap::set_path_width_texture);
-  ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "path_width_texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture2D"), "set_path_width_texture", "get_path_width_texture");
 }
 
 DashUpMap::DashUpMap() {}
@@ -64,15 +62,8 @@ void DashUpMap::set_path_width_max(const float p_path_width_max) {
   path_width_max = p_path_width_max;
 }
 
-Texture2D* DashUpMap::get_path_width_texture() {
-  return path_width_texture;
-}
-
-void DashUpMap::set_path_width_texture(Texture2D* p_path_width_texture) {
-  path_width_texture = p_path_width_texture;
-}
-
 void DashUpMap::on_camera_updated(Camera2D* p_camera) {
+  UtilityFunctions::print("CAM UPDATED");
 	Vector2 position = p_camera->get_position();
 	Vector2 viewport_size = p_camera->get_viewport_rect().size;
   if(Engine::get_singleton()->is_editor_hint()) {
@@ -83,16 +74,25 @@ void DashUpMap::on_camera_updated(Camera2D* p_camera) {
   bool updated = false;
   while(camera_view.intersects(map_path->get_heads_bounds())) {
     updated = true;
+    UtilityFunctions::print("GROW", camera_view, map_path->get_heads_bounds());
     map_path->grow_nodes(camera_view);
   }
 
   if(updated) {
+    UtilityFunctions::print("UPDATED");
     build_walls();
   }
 }
 
 const TypedArray<PackedVector2Array> DashUpMap::post_process_wall(const Vector<PathNode*> polygons) {
   PackedVector2Array new_polyons = PackedVector2Array();
+  // Get the center of the polygon
+  Vector2 polygon_center = Vector2();
+  for(PathNode* point: polygons) {
+    polygon_center += point->get_position();
+  }
+  polygon_center = polygon_center / polygons.size();
+
   for(int i = 0; i < polygons.size(); i++) {
     // Get the point and its neighbours
     Vector2 point = polygons[i]->get_position();
@@ -107,15 +107,10 @@ const TypedArray<PackedVector2Array> DashUpMap::post_process_wall(const Vector<P
     }
     Vector2 next_point = polygons[next_index]->get_position();
 
-    // Remove the points that are straight
+    // Shrink the point
     Vector2 direction_previous = (previous_point - point).normalized();
     Vector2 direction_next = (next_point - point).normalized();
-    if(Math::abs(Math::abs(direction_previous.angle_to(direction_next)) - Math_PI) < Math::deg_to_rad(10.)) {
-      continue;
-    }
-
-    // Shrink the point
-    point += (direction_next + direction_previous).normalized() * (path_width_max - path_width_min);
+    point += (polygon_center - point).normalized() * (polygons[i]->get_width() * (path_width_max - path_width_min));
     new_polyons.push_back(point);
   }
 
@@ -127,23 +122,23 @@ Vector<Polygon2D*> DashUpMap::build_wall(Vector<PathNode*> up, Vector<PathNode*>
 
   if(down.size() == 0 && up.size() > 0) {
     // Build the left wall
-    PathNode top_left = (*up[0]);
+    PathNode top_left = up[0]->clone();
     top_left.set_position(top_left.get_position() + Vector2(-path_width_max*10, 0));
     polygon.append(&top_left);
     for(PathNode* node: up) {
       polygon.append(node);
     }
-    PathNode bottom_left = (*up[0]);
+    PathNode bottom_left = up[0]->clone();
     bottom_left.set_position(bottom_left.get_position() + Vector2(-path_width_max*10, 0));
   } else if (up.size() == 0 && down.size() > 0) {
     // Build the right wall
-    PathNode top_right = (*up[0]);
+    PathNode top_right = down[0]->clone();
     top_right.set_position(top_right.get_position() + Vector2(+path_width_max*10, 0));
     polygon.append(&top_right);
-    for(PathNode* node: up) {
+    for(PathNode* node: down) {
       polygon.append(node);
     }
-    PathNode bottom_right = (*up[0]);
+    PathNode bottom_right = down[0]->clone();
     bottom_right.set_position(bottom_right.get_position() + Vector2(+path_width_max*10, 0));
   } else {
     for(PathNode* node: down) {
@@ -174,7 +169,9 @@ void DashUpMap::traverse_node(PathNode* node, Vector<PathNode*> up, Vector<PathN
   if(up.size() > 0) {
     // We reached a head
     if(node->get_next().size() == 0) {
+      UtilityFunctions::print("BUILD WALL");
       for(Polygon2D* wall: build_wall(up, down)) {
+        UtilityFunctions::print("PUSH WALL");
         walls.push_back(wall);
       }
       traverse_node(node, Vector<PathNode*>{}, Vector<PathNode*>{node});
@@ -193,7 +190,9 @@ void DashUpMap::traverse_node(PathNode* node, Vector<PathNode*> up, Vector<PathN
     } else {
       // We reached the tail
       if(node->get_previous().size() == 0) {
+        UtilityFunctions::print("BUILD WALL");
         for(Polygon2D* wall: build_wall(up, down)) {
+          UtilityFunctions::print("PUSH WALL");
           walls.push_back(wall);
         }
         return;
@@ -208,6 +207,7 @@ void DashUpMap::traverse_node(PathNode* node, Vector<PathNode*> up, Vector<PathN
 }
 
 void DashUpMap::build_walls() {
+    UtilityFunctions::print("BUILD WALLS");
   if(!map_path->get_tail()) {
     return;
   }
@@ -219,7 +219,7 @@ void DashUpMap::build_walls() {
   walls = Vector<Polygon2D*>();
 
   // Rebuild the walls
-  return;
+  UtilityFunctions::print("TRAVERSE");
   traverse_node(map_path->get_tail(), Vector<PathNode*>{map_path->get_tail()}, Vector<PathNode*>{});
 }
 
