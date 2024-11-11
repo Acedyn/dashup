@@ -10,7 +10,7 @@ class PathNode : public Node2D {
 
 protected:
 	static void _bind_methods();
-  float fertility = 0.1;
+  float fertility = 0.0;
   float width = 0.5;
 
 private:
@@ -18,7 +18,6 @@ private:
 
 public:
   bool fused = false;
-  Vector2 position = Vector2();
   Vector<PathNode*> next = *memnew(Vector<PathNode*>);
   Vector<PathNode*> previous = *memnew(Vector<PathNode*>);
 
@@ -34,8 +33,7 @@ public:
 
   PathNode();
   PathNode(Vector<PathNode*> p_previous);
-  PathNode(Vector<PathNode*> p_previous, Vector2 &p_position);
-  PathNode(Vector<PathNode*> p_previous, Vector<PathNode*> p_next, Vector2 &p_position);
+  PathNode(Vector<PathNode*> p_previous, Vector<PathNode*> p_next);
 };
 
 }

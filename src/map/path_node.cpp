@@ -69,6 +69,5 @@ Vector2 PathNode::get_next_position() {
 
 PathNode::PathNode() {}
 PathNode::PathNode(Vector<PathNode*> p_previous): previous(p_previous) {}
-PathNode::PathNode(Vector<PathNode*> p_previous, Vector2 &p_position): previous(p_previous), position(p_position) {}
-PathNode::PathNode(Vector<PathNode*> p_previous, Vector<PathNode*> p_next, Vector2 &p_position): previous(p_previous), next(p_next), position(p_position) {}
+PathNode::PathNode(Vector<PathNode*> p_previous, Vector<PathNode*> p_next): previous(p_previous), next(p_next) {}
 

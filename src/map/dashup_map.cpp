@@ -5,6 +5,7 @@
 #include "godot_cpp/classes/polygon2d.hpp"
 #include "godot_cpp/classes/viewport.hpp"
 #include "godot_cpp/variant/callable.hpp"
+#include "godot_cpp/variant/rect2.hpp"
 #include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include <godot_cpp/core/class_db.hpp>
@@ -81,12 +82,23 @@ void DashUpMap::on_camera_updated(Camera2D* p_camera) {
     viewport_size = Vector2(1152, 648);
   }
 	Rect2 camera_view = Rect2(position - viewport_size/2, viewport_size);
+  // Grow the camera viewport size as an overscan
+  camera_view = camera_view.grow_individual(
+    camera_view.size.x/2,
+    camera_view.size.y/2,
+    camera_view.size.x/2,
+    camera_view.size.y/2
+  );
 
   bool updated = false;
+  Rect2 previous_bounds = map_path->get_heads_bounds();
   while(camera_view.intersects(map_path->get_heads_bounds())) {
     updated = true;
     UtilityFunctions::print("GROW", camera_view, map_path->get_heads_bounds());
     map_path->grow_nodes(camera_view);
+    if(map_path->get_heads_bounds() == previous_bounds) {
+      break;
+    }
   }
 
   if(updated) {
@@ -187,18 +199,20 @@ Vector<Polygon2D*> DashUpMap::build_wall(Vector<PathNode*> up, Vector<PathNode*>
     for(PathNode* node: up) {
       polygon.append(node);
     }
-    PathNode bottom_left = up[0]->clone();
+    PathNode bottom_left = up[up.size()-1]->clone();
     bottom_left.set_position(bottom_left.get_position() + Vector2(-path_width_max*10, 0));
+    polygon.append(&bottom_left);
   } else if (up.size() == 0 && down.size() > 0) {
     // Build the right wall
     PathNode top_right = down[0]->clone();
-    top_right.set_position(top_right.get_position() + Vector2(+path_width_max*10, 0));
+    top_right.set_position(top_right.get_position() + Vector2(path_width_max*10, 0));
     polygon.append(&top_right);
     for(PathNode* node: down) {
       polygon.append(node);
     }
-    PathNode bottom_right = down[0]->clone();
-    bottom_right.set_position(bottom_right.get_position() + Vector2(+path_width_max*10, 0));
+    PathNode bottom_right = down[down.size()-1]->clone();
+    bottom_right.set_position(bottom_right.get_position() + Vector2(path_width_max*10, 0));
+    polygon.append(&bottom_right);
   } else {
     for(PathNode* node: down) {
       // Walls between each ramifications

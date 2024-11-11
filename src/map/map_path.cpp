@@ -12,6 +12,9 @@ void MapPath::_bind_methods() {
   ClassDB::bind_method(D_METHOD("get_grow_scale"), &MapPath::get_grow_scale);
   ClassDB::bind_method(D_METHOD("set_grow_scale", "p_grow_scale"), &MapPath::set_grow_scale);
   ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "grow_scale"), "set_grow_scale", "get_grow_scale");
+  ClassDB::bind_method(D_METHOD("get_fertility_growth"), &MapPath::get_fertility_growth);
+  ClassDB::bind_method(D_METHOD("set_fertility_growth", "p_fertility_growth"), &MapPath::set_fertility_growth);
+  ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "fertility_growth"), "set_fertility_growth", "get_fertility_growth");
   ClassDB::bind_method(D_METHOD("get_max_angle"), &MapPath::get_max_angle);
   ClassDB::bind_method(D_METHOD("set_max_angle", "p_max_angle"), &MapPath::set_max_angle);
   ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "max_angle"), "set_max_angle", "get_max_angle");
@@ -28,7 +31,32 @@ void MapPath::set_path_width_texture(Ref<Noise> p_path_width_texture) {
   path_width_texture = p_path_width_texture;
 }
 
-PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)) {
+float MapPath::get_grow_scale() {
+  return grow_scale;
+}
+
+void MapPath::set_grow_scale(float p_grow_scale) {
+  grow_scale = p_grow_scale;
+}
+
+float MapPath::get_max_angle() {
+  return Math::rad_to_deg(max_angle);
+}
+
+void MapPath::set_max_angle(float p_max_angle) {
+  max_angle = Math::deg_to_rad(p_max_angle);
+}
+
+
+float MapPath::get_fertility_growth() {
+  return fertility_growth;
+}
+
+void MapPath::set_fertility_growth(const float p_fertility_growth) {
+  fertility_growth = p_fertility_growth;
+}
+
+PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1), float fertility=0) {
   // Initialize the new node
   PathNode* new_path_node = memnew(PathNode);
   if(p_parent && UtilityFunctions::is_instance_valid(p_parent)) {
@@ -46,12 +74,13 @@ PathNode* MapPath::add_node(PathNode* p_parent, Vector2 p_offset=Vector2(0 , -1)
     p_offset = Vector2(p_offset.x * (1 / p_offset.y), 1);
     new_path_node->previous.push_back(p_parent);
     new_path_node->set_position(p_parent->get_position() + p_offset * -grow_scale);
+    new_path_node->set_fertility(fertility);
     if(path_width_texture.is_valid()) {
       new_path_node->set_width(
         path_width_texture->get_noise_2d(
           new_path_node->get_position().x,
           new_path_node->get_position().y
-        )
+        ) / 2 + 0.5
       );
     }
     p_parent->next.push_back(new_path_node);
@@ -71,7 +100,16 @@ void MapPath::grow_nodes(Rect2 camera_view) {
   Vector<PathNode*> new_heads = Vector<PathNode*>();
   for(PathNode* path_node: heads) {
     if(!camera_view.intersects(Rect2(path_node->get_position(), Vector2(0, 0)))) {
-      UtilityFunctions::print("NO INTERSECT", Rect2(path_node->get_position(), Vector2(0, 0)));
+      camera_view = camera_view.grow_individual(
+        camera_view.size.x/2,
+        camera_view.size.y/2,
+        camera_view.size.x/2,
+        camera_view.size.y/2
+      );
+
+      if(camera_view.intersects(Rect2(path_node->get_position(), Vector2(0, 0)))) {
+        new_heads.push_back(path_node);
+      }
       continue;
     }
     if(path_node->get_fertility() > UtilityFunctions::randf_range(0, 1)) {
@@ -80,7 +118,7 @@ void MapPath::grow_nodes(Rect2 camera_view) {
       new_heads.push_back(add_node(path_node, Vector2(-0.5, -1)));
       new_heads.push_back(add_node(path_node, Vector2(0.5, -1)));
     } else {
-      new_heads.push_back(add_node(path_node));
+      new_heads.push_back(add_node(path_node, Vector2(0 , -1), path_node->get_fertility()+fertility_growth));
     }
   }
 
@@ -160,28 +198,12 @@ void MapPath::compute_bounds() {
   heads_bounds = Rect2(Vector2(left, top), Vector2(Math::abs(left-right), Math::abs(top-bottom)));
 }
 
-float MapPath::get_grow_scale() {
-  return grow_scale;
+Rect2 MapPath::get_heads_bounds() {
+  return heads_bounds;
 }
 
 PathNode* MapPath::get_tail() {
   return tail;
-}
-
-void MapPath::set_grow_scale(float p_grow_scale) {
-  grow_scale = p_grow_scale;
-}
-
-float MapPath::get_max_angle() {
-  return Math::rad_to_deg(max_angle);
-}
-
-void MapPath::set_max_angle(float p_max_angle) {
-  max_angle = Math::deg_to_rad(p_max_angle);
-}
-
-Rect2 MapPath::get_heads_bounds() {
-  return heads_bounds;
 }
 
 void MapPath::_enter_tree() {
