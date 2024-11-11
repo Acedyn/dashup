@@ -85,9 +85,57 @@ void MapPath::grow_nodes(Rect2 camera_view) {
   }
 
   if(new_heads.size()) {
-    heads = new_heads;
+    heads = fuse_nodes(new_heads, grow_scale/2);
     compute_bounds();
   }
+}
+
+Vector<PathNode*> MapPath::fuse_nodes(Vector<PathNode*> nodes, float distance) {
+  Vector<PathNode*> fused_nodes = Vector<PathNode*>();
+  Vector<PathNode*> removed_nodes = Vector<PathNode*>();
+
+  for(int i = 0; i < nodes.size(); i++) {
+    UtilityFunctions::print("FUSING");
+    PathNode* node = nodes[i];
+    if(node->fused) {
+      continue;
+    }
+
+    int fused_count = 1;
+    Vector2 fused_position = node->get_position();
+
+    for(int j = i+1; j < nodes.size(); j++) {
+      PathNode* potential_neighbour = nodes[j];
+      if(node->get_position().distance_to(potential_neighbour->get_position()) > distance) {
+        continue;
+      }
+
+      UtilityFunctions::print("FUSED");
+      fused_count++;
+      fused_position += potential_neighbour->get_position();
+      potential_neighbour->fused = true;
+      removed_nodes.push_back(potential_neighbour);
+
+      for(PathNode* neighbour_previous: potential_neighbour->get_previous()) {
+        node->get_previous().push_back(neighbour_previous);
+        neighbour_previous->get_next().push_back(node);
+        UtilityFunctions::print("REMOVE");
+        neighbour_previous->get_next().remove_at(
+          neighbour_previous->get_next().find(potential_neighbour)
+        );
+        UtilityFunctions::print("REMOVED");
+      }
+    }
+
+    node->set_position(fused_position/fused_count);
+    fused_nodes.push_back(node);
+  }
+
+  for(PathNode* removed_node: removed_nodes) {
+    removed_node->get_parent()->remove_child(removed_node);
+  }
+
+  return fused_nodes;
 }
 
 void MapPath::compute_bounds() {

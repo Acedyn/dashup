@@ -25,6 +25,7 @@ private:
   Ref<Noise> path_width_texture = Ref(memnew(FastNoiseLite));
 
   PathNode* add_node(PathNode* p_parent, Vector2 p_offset);
+  Vector<PathNode*> fuse_nodes(Vector<PathNode*> nodes, float distance);
   void compute_bounds();
 
 public:

@@ -17,6 +17,7 @@ private:
   Vector2 get_average_position(Vector<PathNode*> nodes);
 
 public:
+  bool fused = false;
   Vector2 position = Vector2();
   Vector<PathNode*> next = *memnew(Vector<PathNode*>);
   Vector<PathNode*> previous = *memnew(Vector<PathNode*>);
